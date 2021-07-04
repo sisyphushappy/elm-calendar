@@ -1,7 +1,7 @@
 module Config exposing (..)
 
 import Date exposing (Date)
-import Time exposing (Time)
+import Time exposing (Posix)
 import Mouse
 import Html exposing (Html, Attribute)
 import Calendar.Msg as InternalMsg
@@ -38,6 +38,6 @@ type alias EventConfig msg =
     , onMouseEnter : String -> Maybe msg
     , onMouseLeave : String -> Maybe msg
     , onDragStart : String -> Maybe msg
-    , onDragging : String -> Time -> Maybe msg
-    , onDragEnd : String -> Time -> Maybe msg
+    , onDragging : String -> Posix -> Maybe msg
+    , onDragEnd : String -> Posix -> Maybe msg
     }

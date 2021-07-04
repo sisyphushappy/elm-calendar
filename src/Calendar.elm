@@ -10,11 +10,11 @@ module Calendar
         , view
         , viewConfig
         , ViewConfig
-        , eventConfig
+        , initEventConfig
         , EventView
-        , eventView
+        , eventViewConfig
         , EventConfig
-        , timeSlotConfig
+        , initTimeSlotConfig
         , TimeSlotConfig
         , subscriptions
         )
@@ -39,7 +39,7 @@ import Config
 import Calendar.Internal as Internal
 import Calendar.Msg
 import Calendar.Msg as InternalMsg
-import Time exposing (Time)
+import Time exposing (Posix)
 import Mouse
 
 
@@ -129,13 +129,13 @@ type EventView
 
 {-| configure a custom event view
 -}
-eventView :
+eventViewConfig :
     { nodeName : String
     , classes : List ( String, Bool )
     , children : List (Html InternalMsg.Msg)
     }
     -> EventView
-eventView { nodeName, classes, children } =
+eventViewConfig { nodeName, classes, children } =
     EventView
         { nodeName = nodeName
         , classes = classes
@@ -174,7 +174,7 @@ viewConfig { toId, title, start, end, event } =
 
 {-| configure time slot interactions
 -}
-timeSlotConfig :
+initTimeSlotConfig :
     { onClick : Date -> Mouse.Position -> Maybe msg
     , onMouseEnter : Date -> Mouse.Position -> Maybe msg
     , onMouseLeave : Date -> Mouse.Position -> Maybe msg
@@ -183,7 +183,7 @@ timeSlotConfig :
     , onDragEnd : Date -> Mouse.Position -> Maybe msg
     }
     -> TimeSlotConfig msg
-timeSlotConfig { onClick, onMouseEnter, onMouseLeave, onDragStart, onDragging, onDragEnd } =
+initTimeSlotConfig { onClick, onMouseEnter, onMouseLeave, onDragStart, onDragging, onDragEnd } =
     TimeSlotConfig
         { onClick = onClick
         , onMouseEnter = onMouseEnter
@@ -196,16 +196,16 @@ timeSlotConfig { onClick, onMouseEnter, onMouseLeave, onDragStart, onDragging, o
 
 {-| configure event interactions
 -}
-eventConfig :
+initEventConfig :
     { onClick : String -> Maybe msg
     , onMouseEnter : String -> Maybe msg
     , onMouseLeave : String -> Maybe msg
     , onDragStart : String -> Maybe msg
-    , onDragging : String -> Time -> Maybe msg
-    , onDragEnd : String -> Time -> Maybe msg
+    , onDragging : String -> Posix -> Maybe msg
+    , onDragEnd : String -> Posix -> Maybe msg
     }
     -> EventConfig msg
-eventConfig { onClick, onMouseEnter, onMouseLeave, onDragStart, onDragging, onDragEnd } =
+initEventConfig { onClick, onMouseEnter, onMouseLeave, onDragStart, onDragging, onDragEnd } =
     EventConfig
         { onClick = onClick
         , onMouseEnter = onMouseEnter
